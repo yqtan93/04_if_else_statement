@@ -36,7 +36,14 @@ while len(pack_list) < max_pack:
         if item < 1 or item > 10:
             print("\nItem weight not within allowed range. Please only enter item within the range of 1-10 kg\n")
             break
-        else
+
+        # if condition:
+        #     try:
+        #         assert 0 < item < 10
+        #     except AssertionError:
+        #         print("\nValue is outside the range. Please enter an item within the weight of 1-10kg.")
+        # else:
+        #     continue
 
 # Break the loop if item == 0
         if item == 0:
@@ -68,9 +75,12 @@ while len(pack_list) < max_pack:
 # Calculate unused capacity of each package
 num_pack = len(pack_list)
 weight_pack = sum(pack_list)
-unused_cap = num_pack * 20 / weight_pack
-unused_list = [20/x for x in pack_list]
+unused_cap = (num_pack * 20) - weight_pack
+
+# Enumerate package list and apply min() function to obtain package with lowest weight, lambda function specified as key to
+min_wpack_index, min_pack = min(enumerate(pack_list), key=lambda x:x[1])
+most_unused = 20 - min_pack
 
 print(f"""\nSummary:
 	A total of {num_pack} packages were shipped with a total weight of {weight_pack} kg.
-	A total of {unused_cap} capacity were left unused with package number {max(unused_list)} with the most unused capacity of {max(unused_list)}.""")
+	A total of {unused_cap} capacity were left unused with package number {min_wpack_index + 1} with the most unused capacity of {most_unused}.""")
