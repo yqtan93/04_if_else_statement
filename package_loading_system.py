@@ -32,26 +32,21 @@ while len(pack_list) < max_pack:
     try:
         item = float(input("\nPlease enter the weight of the item to be packed (1-10kg): ") )
     
-# Error message for if input item weight not within 1-10kg range
-        if item < 1 or item > 10:
+# Error message for if input item weight not within 1-10kg range, but not equals to zero
+        if (item < 1 and item != 0) or item > 10:
             print("\nItem weight not within allowed range. Please only enter item within the range of 1-10 kg\n")
-            break
+            continue
 
-        # if condition:
-        #     try:
-        #         assert 0 < item < 10
-        #     except AssertionError:
-        #         print("\nValue is outside the range. Please enter an item within the weight of 1-10kg.")
-        # else:
-        #     continue
 
 # Break the loop if item == 0
         if item == 0:
-            if pack > 0:
+            if pack == 0:
+                pack_list.append(pack)
+                print(f"\nEnding packing process.")
+                
+            else:
                 pack_list.append(pack)
                 print(f"\nA package is shipped at {pack} kg! This is the last package.")
-            else:
-                print(f"\nEnding packing process.")
             break
 
 # If item weight + package weight > 20, append current package weight to list, start a new package, and add current item to new package
@@ -71,6 +66,9 @@ while len(pack_list) < max_pack:
     except ValueError:
         print("\nInvalid input. Please enter a valid number for the weight of the item (1-10kg).")
         continue
+
+else:
+    print("\nMax number of package reached. Ending program...")
 
 # Calculate unused capacity of each package
 num_pack = len(pack_list)
