@@ -33,35 +33,46 @@ for i in range(max_items):
         item = float(input("\nPlease enter the weight of the item to be packed (1-10kg): ") )
     
 # Error message for if input item weight not within 1-10kg range
-        if item < 1 or item > 10:
+        if (item < 1 and item != 0) or item > 10:
             print("\nItem weight not within allowed range. Please only enter item within the range of 1-10 kg\n")
             continue
-
-# Break the loop if item == 0
+        # Break the loop if item == 0
         if item == 0:
-            if pack > 0:
+            if pack == 0:
+                pack_list.append(pack)
+                print(f"\nEnding packing process.")
+                
+            else:
+                pack_list.append(pack)
+                print(f"\nA package is shipped at {pack} kg! This is the last package.")
+            break
+
+        # If this is the last item, add item to package send the package as last package
+        if i == (max_items - 1):
+            if pack + item > 20:
+                pack_list.append(pack)
+                print(f"\nA package is shipped at {pack} kg! Put current item in a new package.")
+                pack = item
                 pack_list.append(pack)
                 print(f"\nA package is shipped at {pack} kg! This is the last package.")
             else:
-                print(f"\nEnding packing process.")
-            break
-
-# If item weight + package weight > 20, append current package weight to list, start a new package, and add current item to new package
-        if pack + item > 20:
+                pack += item
+                pack_list.append(pack)
+                print(f"\nA package is shipped at {pack} kg! This is the last package.")
+        # If item weight + package weight > 20, append current package weight to list, start a new package, and add current item to new package
+        elif pack + item > 20:
             pack_list.append(pack)
             print(f"\nA package is shipped at {pack} kg! Put current item in a new package.")
-            pack = 0
-            pack += item
+            pack = item
             print(f"\nItem added. Current package is at {pack} kg.")
-            i += 1
-            
-
-# Add item to package weight
+            # i += 1
+        # Else add item to package weight
         else:
             pack += item
-            print(f"\nItem added. Current package is at {pack} kg.")
+            # i += 1
+            print(f"\nItem added. Current package is at {pack} kg.")     
 
-# Except ValueError if wrong value type has been entered for item weight
+    # Except ValueError if wrong value type has been entered for item weight
     except ValueError:
         print("\nInvalid input. Please enter a valid number for the weight of the item (1-10kg).")
         continue
@@ -69,8 +80,6 @@ for i in range(max_items):
 else:
     print("\nLast item packed. Ending program...")
 
-
-print(pack_list)
 
 # Calculate unused capacity of each package
 num_pack = len(pack_list)
